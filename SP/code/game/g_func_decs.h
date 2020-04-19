@@ -370,7 +370,6 @@ extern void SP_target_remove_powerups ( gentity_t * ent ) ;
 extern void Use_target_remove_powerups ( gentity_t * ent , gentity_t * other , gentity_t * activator ) ;
 extern void SP_target_give ( gentity_t * ent ) ;
 extern void Use_Target_Give ( gentity_t * ent , gentity_t * other , gentity_t * activator ) ;
-extern void * trap_Alloc ( int size ) ;
 extern int trap_GeneticParentsAndChildSelection ( int numranks , float * ranks , int * parent1 , int * parent2 , int * child ) ;
 extern void trap_BotResetWeaponState ( int weaponstate ) ;
 extern void trap_BotFreeWeaponState ( int weaponstate ) ;
@@ -509,7 +508,6 @@ extern int trap_BotLibShutdown ( void ) ;
 extern int trap_BotLibSetup ( void ) ;
 extern qboolean trap_GetTag ( int clientNum , char * tagName , orientation_t * or ) ;
 extern void trap_SnapVector ( float * v ) ;
-extern int trap_RealTime ( qtime_t * qtime ) ;
 extern void trap_DebugPolygonDelete ( int id ) ;
 extern int trap_DebugPolygonCreate ( int color , int numPoints , vec3_t * points ) ;
 extern qboolean trap_GetEntityToken ( char * buffer , int bufferSize ) ;
@@ -537,25 +535,62 @@ extern void trap_SetConfigstring ( int num , const char * string ) ;
 extern void trap_SendServerCommand ( int clientNum , const char * text ) ;
 extern void trap_DropClient ( int clientNum , const char * reason ) ;
 extern void trap_LocateGameData ( gentity_t * gEnts , int numGEntities , int sizeofGEntity_t , playerState_t * clients , int sizeofGClient ) ;
-extern void trap_Cvar_VariableStringBuffer ( const char * var_name , char * buffer , int bufsize ) ;
 extern int trap_Cvar_VariableIntegerValue ( const char * var_name ) ;
-extern void trap_Cvar_Set ( const char * var_name , const char * value ) ;
-extern void trap_Cvar_Update ( vmCvar_t * cvar ) ;
-extern void trap_Cvar_Register ( vmCvar_t * cvar , const char * var_name , const char * value , int flags ) ;
 extern void trap_SendConsoleCommand ( int exec_when , const char * text ) ;
-extern int trap_FS_GetFileList ( const char * path , const char * extension , char * listbuf , int bufsize ) ;
 extern void trap_FS_CopyFile ( char * from , char * to ) ;
-extern void trap_FS_FCloseFile ( fileHandle_t f ) ;
 extern int trap_FS_Rename ( const char * from , const char * to ) ;
-extern int trap_FS_Write ( const void * buffer , int len , fileHandle_t f ) ;
-extern void trap_FS_Read ( void * buffer , int len , fileHandle_t f ) ;
-extern int trap_FS_FOpenFile ( const char * qpath , fileHandle_t * f , fsMode_t mode ) ;
+extern void trap_Endgame ( void ) ;
+#ifdef NODL
+extern void g_trap_Error ( const char * text ) ;
+extern void g_trap_Print ( const char * text ) ;
+extern void g_trap_Argv ( int n , char * buffer , int bufferLength ) ;
+extern int g_trap_Argc ( void ) ;
+extern int g_trap_Milliseconds ( void ) ;
+extern void g_trap_Cvar_Set ( const char * var_name , const char * value ) ;
+extern void g_trap_Cvar_Update ( vmCvar_t * cvar ) ;
+extern void g_trap_Cvar_Register ( vmCvar_t * cvar , const char * var_name , const char * value , int flags ) ;
+extern void g_trap_Cvar_VariableStringBuffer ( const char * var_name , char * buffer , int bufsize ) ;
+extern int g_trap_FS_Write ( const void * buffer , int len , fileHandle_t f ) ;
+extern void g_trap_FS_Read ( void * buffer , int len , fileHandle_t f ) ;
+extern int g_trap_FS_FOpenFile ( const char * qpath , fileHandle_t * f , fsMode_t mode ) ;
+extern void g_trap_FS_FCloseFile ( fileHandle_t f ) ;
+extern int g_trap_FS_GetFileList ( const char * path , const char * extension , char * listbuf , int bufsize ) ;
+extern int g_trap_RealTime ( qtime_t * qtime ) ;
+extern void * g_trap_Alloc ( int size ) ;
+#define trap_Error g_trap_Error
+#define trap_Print g_trap_Print
+#define trap_Argv g_trap_Argv
+#define trap_Argc g_trap_Argc
+#define trap_Milliseconds g_trap_Milliseconds
+#define trap_Cvar_Set g_trap_Cvar_Set
+#define trap_Cvar_Update g_trap_Cvar_Update
+#define trap_Cvar_Register g_trap_Cvar_Register
+#define trap_Cvar_VariableStringBuffer g_trap_Cvar_VariableStringBuffer
+#define trap_FS_Read g_trap_FS_Read
+#define trap_FS_Write g_trap_FS_Write
+#define trap_FS_FOpenFile g_trap_FS_FOpenFile
+#define trap_FS_FCloseFile g_trap_FS_FCloseFile
+#define trap_FS_GetFileList g_trap_FS_GetFileList
+#define trap_RealTime g_trap_RealTime
+#define trap_Alloc g_trap_Alloc
+#else
+extern void trap_Error ( const char * text ) ;
+extern void trap_Print ( const char * text ) ;
 extern void trap_Argv ( int n , char * buffer , int bufferLength ) ;
 extern int trap_Argc ( void ) ;
 extern int trap_Milliseconds ( void ) ;
-extern void trap_Endgame ( void ) ;
-extern void trap_Error ( const char * text ) ;
-extern void trap_Print ( const char * text ) ;
+extern void trap_Cvar_Set ( const char * var_name , const char * value ) ;
+extern void trap_Cvar_Update ( vmCvar_t * cvar ) ;
+extern void trap_Cvar_Register ( vmCvar_t * cvar , const char * var_name , const char * value , int flags ) ;
+extern void trap_Cvar_VariableStringBuffer ( const char * var_name , char * buffer , int bufsize ) ;
+extern int trap_FS_Write ( const void * buffer , int len , fileHandle_t f ) ;
+extern void trap_FS_Read ( void * buffer , int len , fileHandle_t f ) ;
+extern int trap_FS_FOpenFile ( const char * qpath , fileHandle_t * f , fsMode_t mode ) ;
+extern void trap_FS_FCloseFile ( fileHandle_t f ) ;
+extern int trap_FS_GetFileList ( const char * path , const char * extension , char * listbuf , int bufsize ) ;
+extern int trap_RealTime ( qtime_t * qtime ) ;
+extern void * trap_Alloc ( int size ) ;
+#endif
 #ifndef Q3_VM
 extern int PASSFLOAT ( float x ) ;
 extern Q_EXPORT void dllEntry ( intptr_t ( QDECL * syscallptr ) ( intptr_t arg , ... ) ) ;

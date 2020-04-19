@@ -35,6 +35,11 @@ If you have questions concerning this license or the applicable additional terms
 
 #include "cg_local.h"
 
+#ifdef NODL
+extern vmCvar_t g_gametype;
+#define cg_gameType g_gametype
+#endif
+
 int wolfkickModel;
 int hWeaponSnd;
 int hflakWeaponSnd;

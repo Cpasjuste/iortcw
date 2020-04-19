@@ -32,6 +32,11 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h"
 
+#ifdef NODL
+extern vmCvar_t g_gametype;
+#define cg_gameType g_gametype
+#endif
+
 //----(SA) added to make it easier to raise/lower our statsubar by only changing one thing
 #define STATUSBARHEIGHT 452
 //----(SA) end

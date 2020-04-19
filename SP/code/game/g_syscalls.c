@@ -38,21 +38,29 @@ If you have questions concerning this license or the applicable additional terms
 
 static intptr_t (QDECL *syscall)( intptr_t arg, ... ) = (intptr_t (QDECL *)( intptr_t, ...))-1;
 
+#ifdef NODL
+Q_EXPORT void g_dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) ) {
+#else
 Q_EXPORT void dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) ) {
+#endif
 	syscall = syscallptr;
 }
 
+#ifdef NODL
+extern int PASSFLOAT( float x );
+#else
 int PASSFLOAT( float x ) {
 	floatint_t fi;
 	fi.f = x;
 	return fi.i;
 }
+#endif
 
-void	trap_Print( const char *text ) {
+void	g_trap_Print( const char *text ) {
 	syscall( G_PRINT, text );
 }
 
-void trap_Error( const char *text )
+void g_trap_Error( const char *text )
 {
 	syscall( G_ERROR, text );
 	// shut up GCC warning about returning functions, because we know better
@@ -63,26 +71,26 @@ void    trap_Endgame( void ) {
 	syscall( G_ENDGAME );
 }
 
-int     trap_Milliseconds( void ) {
+int     g_trap_Milliseconds( void ) {
 	return syscall( G_MILLISECONDS );
 }
-int     trap_Argc( void ) {
+int     g_trap_Argc( void ) {
 	return syscall( G_ARGC );
 }
 
-void    trap_Argv( int n, char *buffer, int bufferLength ) {
+void    g_trap_Argv( int n, char *buffer, int bufferLength ) {
 	syscall( G_ARGV, n, buffer, bufferLength );
 }
 
-int     trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode ) {
+int     g_trap_FS_FOpenFile( const char *qpath, fileHandle_t *f, fsMode_t mode ) {
 	return syscall( G_FS_FOPEN_FILE, qpath, f, mode );
 }
 
-void    trap_FS_Read( void *buffer, int len, fileHandle_t f ) {
+void    g_trap_FS_Read( void *buffer, int len, fileHandle_t f ) {
 	syscall( G_FS_READ, buffer, len, f );
 }
 
-int     trap_FS_Write( const void *buffer, int len, fileHandle_t f ) {
+int     g_trap_FS_Write( const void *buffer, int len, fileHandle_t f ) {
 	return syscall( G_FS_WRITE, buffer, len, f );
 }
 
@@ -90,7 +98,7 @@ int     trap_FS_Rename( const char *from, const char *to ) {
 	return syscall( G_FS_RENAME, from, to );
 }
 
-void    trap_FS_FCloseFile( fileHandle_t f ) {
+void    g_trap_FS_FCloseFile( fileHandle_t f ) {
 	syscall( G_FS_FCLOSE_FILE, f );
 }
 
@@ -98,7 +106,7 @@ void    trap_FS_CopyFile( char *from, char *to ) {  //DAJ
 	syscall( G_FS_COPY_FILE, from, to );
 }
 
-int trap_FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize ) {
+int g_trap_FS_GetFileList(  const char *path, const char *extension, char *listbuf, int bufsize ) {
 	return syscall( G_FS_GETFILELIST, path, extension, listbuf, bufsize );
 }
 
@@ -106,15 +114,15 @@ void    trap_SendConsoleCommand( int exec_when, const char *text ) {
 	syscall( G_SEND_CONSOLE_COMMAND, exec_when, text );
 }
 
-void    trap_Cvar_Register( vmCvar_t *cvar, const char *var_name, const char *value, int flags ) {
+void    g_trap_Cvar_Register( vmCvar_t *cvar, const char *var_name, const char *value, int flags ) {
 	syscall( G_CVAR_REGISTER, cvar, var_name, value, flags );
 }
 
-void    trap_Cvar_Update( vmCvar_t *cvar ) {
+void    g_trap_Cvar_Update( vmCvar_t *cvar ) {
 	syscall( G_CVAR_UPDATE, cvar );
 }
 
-void trap_Cvar_Set( const char *var_name, const char *value ) {
+void g_trap_Cvar_Set( const char *var_name, const char *value ) {
 	syscall( G_CVAR_SET, var_name, value );
 }
 
@@ -122,7 +130,7 @@ int trap_Cvar_VariableIntegerValue( const char *var_name ) {
 	return syscall( G_CVAR_VARIABLE_INTEGER_VALUE, var_name );
 }
 
-void trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize ) {
+void g_trap_Cvar_VariableStringBuffer( const char *var_name, char *buffer, int bufsize ) {
 	syscall( G_CVAR_VARIABLE_STRING_BUFFER, var_name, buffer, bufsize );
 }
 
@@ -238,7 +246,7 @@ void trap_DebugPolygonDelete( int id ) {
 	syscall( G_DEBUG_POLYGON_DELETE, id );
 }
 
-int trap_RealTime( qtime_t *qtime ) {
+int g_trap_RealTime( qtime_t *qtime ) {
 	return syscall( G_REAL_TIME, qtime );
 }
 
@@ -810,7 +818,7 @@ int trap_GeneticParentsAndChildSelection( int numranks, float *ranks, int *paren
 }
 
 // New in IORTCW
-void *trap_Alloc( int size ) {
+void *g_trap_Alloc( int size ) {
 	return (void*)syscall( G_ALLOC, size );
 }
 

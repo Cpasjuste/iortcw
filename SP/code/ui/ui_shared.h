@@ -77,10 +77,14 @@ If you have questions concerning this license or the applicable additional terms
 #define CURSOR_ARROW            0x00000002
 #define CURSOR_SIZER            0x00000004
 
+#ifdef NODL
+#define STRING_POOL_SIZE  384 * 1024
+#else
 #ifdef CGAME
 #define STRING_POOL_SIZE    128 * 1024
 #else
 #define STRING_POOL_SIZE    384 * 1024
+#endif
 #endif
 
 #define MAX_STRING_HANDLES  4096

@@ -53,7 +53,12 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
+#ifdef NODL
+Q_EXPORT intptr_t cg_vmMain( intptr_t command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11  ) {
+
+#else
 Q_EXPORT intptr_t vmMain( intptr_t command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11  ) {
+#endif
 	switch ( command ) {
 	case CG_GET_TAG:
 		return CG_GetTag( arg0, (char *)arg1, (orientation_t *)arg2 );
@@ -216,7 +221,12 @@ vmCvar_t cg_wolfparticles;
 // done
 
 // Ridah
+#ifdef NODL
+vmCvar_t g_gameType;
+#define cg_gameType g_gameType
+#else
 vmCvar_t cg_gameType;
+#endif
 vmCvar_t cg_bloodTime;
 vmCvar_t cg_norender;
 vmCvar_t cg_skybox;
@@ -283,7 +293,11 @@ typedef struct {
 	int cvarFlags;
 } cvarTable_t;
 
+#ifdef NODL
+cvarTable_t cg_cvarTable[] = {
+#else
 cvarTable_t cvarTable[] = {
+#endif
 	{ &cg_ignore, "cg_ignore", "0", 0 },  // used for debugging
 	{ &cg_autoswitch, "cg_autoswitch", "2", CVAR_ARCHIVE },
 	{ &cg_drawGun, "cg_drawGun", "1", CVAR_ARCHIVE },
@@ -477,6 +491,9 @@ cvarTable_t cvarTable[] = {
 
 	{ &cg_showAIState, "cg_showAIState", "0", CVAR_CHEAT},
 };
+#ifdef NODL
+#define cvarTable cg_cvarTable
+#endif
 int cvarTableSize = ARRAY_LEN( cvarTable );
 
 /*
@@ -589,6 +606,7 @@ void QDECL CG_Error( const char *msg, ... ) {
 	trap_Error( text );
 }
 
+#ifndef NODL
 void QDECL Com_Error( int level, const char *error, ... ) {
 	va_list argptr;
 	char text[1024];
@@ -610,7 +628,7 @@ void QDECL Com_Printf( const char *msg, ... ) {
 
 	trap_Print( text );
 }
-
+#endif
 /*
 ================
 CG_Argv

@@ -30,6 +30,11 @@ If you have questions concerning this license or the applicable additional terms
 // for a 3D rendering
 #include "cg_local.h"
 
+#ifdef NODL
+extern vmCvar_t g_gametype;
+#define cg_gameType g_gametype
+#endif
+
 //========================
 extern int notebookModel;
 //========================

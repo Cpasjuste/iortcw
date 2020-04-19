@@ -4524,6 +4524,7 @@ void CG_AddRefEntityWithPowerups( refEntity_t *ent, int powerups, int team, enti
 	*ent = backupRefEnt;
 }
 
+#ifndef NODL
 char    *vtosf( const vec3_t v ) {
 	static int index;
 	static char str[8][64];
@@ -4537,7 +4538,7 @@ char    *vtosf( const vec3_t v ) {
 
 	return s;
 }
-
+#endif
 
 #define SPINNER_SPEED 0.3f
 /*

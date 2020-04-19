@@ -1378,3 +1378,38 @@ typedef enum
 	shard_ceramic,
 	shard_rubble
 } shards_t;
+
+#ifdef NODL
+extern void g_trap_Error ( const char * text ) ;
+extern void g_trap_Print ( const char * text ) ;
+extern void g_trap_Argv ( int n , char * buffer , int bufferLength ) ;
+extern int g_trap_Argc ( void ) ;
+extern int g_trap_Milliseconds ( void ) ;
+extern void g_trap_Cvar_Set ( const char * var_name , const char * value ) ;
+extern void g_trap_Cvar_Update ( vmCvar_t * cvar ) ;
+extern void g_trap_Cvar_Register ( vmCvar_t * cvar , const char * var_name , const char * value , int flags ) ;
+extern void g_trap_Cvar_VariableStringBuffer ( const char * var_name , char * buffer , int bufsize ) ;
+extern int g_trap_FS_Write ( const void * buffer , int len , fileHandle_t f ) ;
+extern void g_trap_FS_Read ( void * buffer , int len , fileHandle_t f ) ;
+extern int g_trap_FS_FOpenFile ( const char * qpath , fileHandle_t * f , fsMode_t mode ) ;
+extern void g_trap_FS_FCloseFile ( fileHandle_t f ) ;
+extern int g_trap_FS_GetFileList ( const char * path , const char * extension , char * listbuf , int bufsize ) ;
+extern int g_trap_RealTime ( qtime_t * qtime ) ;
+extern void * g_trap_Alloc ( int size ) ;
+#define trap_Error g_trap_Error
+#define trap_Print g_trap_Print
+#define trap_Argv g_trap_Argv
+#define trap_Argc g_trap_Argc
+#define trap_Milliseconds g_trap_Milliseconds
+#define trap_Cvar_Set g_trap_Cvar_Set
+#define trap_Cvar_Update g_trap_Cvar_Update
+#define trap_Cvar_Register g_trap_Cvar_Register
+#define trap_Cvar_VariableStringBuffer g_trap_Cvar_VariableStringBuffer
+#define trap_FS_Read g_trap_FS_Read
+#define trap_FS_Write g_trap_FS_Write
+#define trap_FS_FOpenFile g_trap_FS_FOpenFile
+#define trap_FS_FCloseFile g_trap_FS_FCloseFile
+#define trap_FS_GetFileList g_trap_FS_GetFileList
+#define trap_RealTime g_trap_RealTime
+#define trap_Alloc g_trap_Alloc
+#endif

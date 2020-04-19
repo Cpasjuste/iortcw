@@ -346,6 +346,7 @@ static void IN_ActivateMouse( qboolean isFullscreen )
 	if (!mouseAvailable || !SDL_WasInit( SDL_INIT_VIDEO ) )
 		return;
 
+	/*
 	if( !mouseActive )
 	{
 		SDL_SetRelativeMouseMode( SDL_TRUE );
@@ -370,6 +371,7 @@ static void IN_ActivateMouse( qboolean isFullscreen )
 			in_nograb->modified = qfalse;
 		}
 	}
+	*/
 
 	mouseActive = qtrue;
 }

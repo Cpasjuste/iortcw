@@ -566,7 +566,9 @@ intptr_t CL_CgameSystemCalls( intptr_t *args ) {
 #endif  ///// (SA) DOOMSOUND
 	case CG_S_STARTBACKGROUNDTRACK:
 //		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ), args[3] );  //----(SA)	added fadeup time
+#ifndef NODL
 		S_StartBackgroundTrack( VMA( 1 ), VMA( 2 ) );
+#endif
 		return 0;
 	case CG_S_FADESTREAMINGSOUND:
 		S_FadeStreamingSound( VMF( 1 ), args[2], args[3] ); //----(SA)	added music/all-streaming options

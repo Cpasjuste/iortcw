@@ -279,7 +279,11 @@ This is the only way control passes into the module.
 This must be the very first function compiled into the .q3vm file
 ================
 */
+#ifdef NODL
+Q_EXPORT intptr_t g_vmMain( intptr_t command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11  ) {
+#else
 Q_EXPORT intptr_t vmMain( intptr_t command, intptr_t arg0, intptr_t arg1, intptr_t arg2, intptr_t arg3, intptr_t arg4, intptr_t arg5, intptr_t arg6, intptr_t arg7, intptr_t arg8, intptr_t arg9, intptr_t arg10, intptr_t arg11  ) {
+#endif
 	switch ( command ) {
 	case GAME_INIT:
 		G_InitGame( arg0, arg1, arg2 );
@@ -1392,7 +1396,7 @@ void G_ShutdownGame( int restart ) {
 
 
 //===================================================================
-
+#ifndef NODL
 void QDECL Com_Error( int level, const char *error, ... ) {
 	va_list argptr;
 	char text[1024];
@@ -1414,7 +1418,7 @@ void QDECL Com_Printf( const char *msg, ... ) {
 
 	trap_Print( text );
 }
-
+#endif
 /*
 ========================================================================
 

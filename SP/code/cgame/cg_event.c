@@ -33,6 +33,11 @@ If you have questions concerning this license or the applicable additional terms
 #include "cg_local.h"
 #include "../ui/ui_shared.h" // for Menus_CloseAll()
 
+#ifdef NODL
+extern vmCvar_t g_gametype;
+#define cg_gameType g_gametype
+#endif
+
 extern int hWeaponSnd;
 
 extern void CG_Tracer( vec3_t source, vec3_t dest, int sparks );

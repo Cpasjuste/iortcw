@@ -37,3 +37,7 @@ profile
 # Microsoft Visual Studio
 ####################
 *.sdf
+
+# CMake
+####################
+cmake-build*

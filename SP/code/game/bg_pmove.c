@@ -47,6 +47,11 @@ extern vmCvar_t cg_gameType;
 extern vmCvar_t g_gametype;
 #endif
 
+#ifdef NODL
+#undef GAMEDLL
+#define cg_gameType g_gametype
+#endif
+
 // JPW NERVE -- stuck this here so it can be seen client & server side
 float Com_GetFlamethrowerRange( void ) {
 #ifdef CGAMEDLL

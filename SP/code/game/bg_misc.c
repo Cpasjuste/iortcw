@@ -45,6 +45,10 @@ extern vmCvar_t cg_gameType;
 extern vmCvar_t g_gametype;
 #endif
 
+#ifdef NODL
+#undef GAMEDLL
+#define cg_gameType g_gametype
+#endif
 
 // NOTE: weapons that share ammo (ex. colt/thompson) need to share max ammo, but not necessarily uses or max clip
 #define MAX_AMMO_45     300

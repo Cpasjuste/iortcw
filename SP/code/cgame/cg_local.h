@@ -2466,3 +2466,7 @@ qboolean    trap_GetModelInfo( int clientNum, char *modelName, animModelInfo_t *
 
 // New in IORTCW
 void		*trap_Alloc( int size );
+
+#ifdef NODL
+#include "cg_local_nodl.h"
+#endif

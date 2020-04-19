@@ -34,6 +34,14 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #		define Sys_LoadFunction(h,fn) dlsym(h,fn)
 #		define Sys_LibraryError() dlerror()
 #	endif
+#elif NODL
+void *NODL_LoadObject(const char *sofile);
+#	define Sys_LoadLibrary(f) NODL_LoadObject(f)
+void NODL_UnloadObject(void *handle);
+#	define Sys_UnloadLibrary(h) NODL_UnloadObject(h)
+void *NODL_LoadFunction(void *handle,const char *name);
+#	define Sys_LoadFunction(h,fn) NODL_LoadFunction(h,fn)
+#	define Sys_LibraryError() SDL_GetError()
 #else
 #	ifdef USE_LOCAL_HEADERS
 #		include "SDL.h"

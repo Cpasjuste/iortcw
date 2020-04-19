@@ -81,10 +81,14 @@ itemDef_t *Menu_SetPrevCursorItem( menuDef_t *menu );
 itemDef_t *Menu_SetNextCursorItem( menuDef_t *menu );
 static qboolean Menu_OverActiveItem( menuDef_t *menu, float x, float y );
 
+#ifdef NODL
+#define MEM_POOL_SIZE  1280 * 1024
+#else
 #ifdef CGAME
 #define MEM_POOL_SIZE  128 * 1024
 #else
 #define MEM_POOL_SIZE  1280 * 1024
+#endif
 #endif
 
 static char memoryPool[MEM_POOL_SIZE];
@@ -5856,7 +5860,11 @@ typedef struct vidmode_s
 	int mode;
 } vidmode_t;
 
+#ifdef NODL
+vidmode_t ui_r_vidModes[] =
+#else
 vidmode_t r_vidModes[] =
+#endif
 {
 	{ "320x240 (4:3)",          0 },
 	{ "400x300 (4:3)",          1 },
@@ -5891,6 +5899,9 @@ vidmode_t r_vidModes[] =
 	{ "Automatic (Native)",    -2 },
 	{ "Custom",                -1 }
 };
+#ifdef NODL
+#define r_vidModes ui_r_vidModes
+#endif
 static int	s_numVidModes = ARRAY_LEN( r_vidModes );
 
 /*

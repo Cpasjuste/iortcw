@@ -621,7 +621,12 @@ vm_t *VM_Create( const char *module, intptr_t (*systemCalls)(intptr_t *),
 
 	do
 	{
+#ifdef NODL
+		retval = VMI_NATIVE;
+		snprintf(filename, MAX_OSPATH, "%s.so", module);
+#else
 		retval = FS_FindVM(&startSearch, filename, sizeof(filename), module, (interpret == VMI_NATIVE));
+#endif
 		
 		if(retval == VMI_NATIVE)
 		{
