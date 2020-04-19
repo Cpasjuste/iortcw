@@ -330,9 +330,21 @@ void    cg_trap_R_SetFog( int fogvar, int var1, int var2, float r, float g, floa
 void    cg_trap_R_RenderScene( const refdef_t *fd ) {
 	syscall( CG_R_RENDERSCENE, fd );
 }
-
+#ifdef NODL
+#include "vm_local.h"
+#include "ui_public.h"
+extern int handle_ui;
+#endif
 void    cg_trap_R_SetColor( const float *rgba ) {
+#ifdef NODL
+    int id = CG_R_SETCOLOR;
+    if(currentVM != NULL && currentVM->dllHandle == &handle_ui) {
+        id = UI_R_SETCOLOR;
+    }
+    syscall( id, rgba );
+#else
 	syscall( CG_R_SETCOLOR, rgba );
+#endif
 }
 
 void    cg_trap_R_DrawStretchPic( float x, float y, float w, float h,
@@ -483,7 +495,15 @@ int cg_trap_CIN_PlayCinematic( const char *arg0, int xpos, int ypos, int width, 
 // stops playing the cinematic and ends it.  should always return FMV_EOF
 // cinematics must be stopped in reverse order of when they are started
 e_status cg_trap_CIN_StopCinematic( int handle ) {
-	return syscall( CG_CIN_STOPCINEMATIC, handle );
+#ifdef NODL
+    int id = CG_CIN_STOPCINEMATIC;
+    if(currentVM != NULL && currentVM->dllHandle == &handle_ui) {
+        id = UI_CIN_STOPCINEMATIC;
+    }
+    syscall( id, handle );
+#else
+    return syscall( CG_CIN_STOPCINEMATIC, handle );
+#endif
 }
 
 

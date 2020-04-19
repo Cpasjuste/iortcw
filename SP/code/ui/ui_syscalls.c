@@ -34,6 +34,12 @@ If you have questions concerning this license or the applicable additional terms
 #error "Do not use in VM build"
 #endif
 
+#ifdef NODL
+#include "vm_local.h"
+#include "cg_public.h"
+extern int handle_cgame;
+#endif
+
 static intptr_t (QDECL *syscall)( intptr_t arg, ... ) = (intptr_t (QDECL *)( intptr_t, ...))-1;
 
 Q_EXPORT void dllEntry( intptr_t (QDECL *syscallptr)( intptr_t arg,... ) ) {
@@ -392,11 +398,27 @@ int trap_PC_FreeSource( int handle ) {
 }
 
 int trap_PC_ReadToken( int handle, pc_token_t *pc_token ) {
-	return syscall( UI_PC_READ_TOKEN, handle, pc_token );
+#ifdef NODL
+    int id = UI_PC_READ_TOKEN;
+    if(currentVM != NULL && currentVM->dllHandle == &handle_cgame) {
+        id = CG_PC_READ_TOKEN;
+    }
+	return syscall( id, handle, pc_token );
+#else
+    return syscall( UI_PC_READ_TOKEN, handle, pc_token );
+#endif
 }
 
 int trap_PC_SourceFileAndLine( int handle, char *filename, int *line ) {
+#ifdef NODL
+    int id = UI_PC_SOURCE_FILE_AND_LINE;
+    if(currentVM != NULL && currentVM->dllHandle == &handle_cgame) {
+        id = CG_PC_SOURCE_FILE_AND_LINE;
+    }
+    return syscall( id, handle, filename, line );
+#else
 	return syscall( UI_PC_SOURCE_FILE_AND_LINE, handle, filename, line );
+#endif
 }
 
 void trap_S_StopBackgroundTrack( void ) {

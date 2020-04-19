@@ -227,3 +227,5 @@ extern int cg_trap_PC_LoadSource( const char *filename );
 #define trap_PC_LoadSource cg_trap_PC_LoadSource
 extern int cg_trap_PC_ReadToken( int handle, pc_token_t *pc_token );
 #define trap_PC_ReadToken cg_trap_PC_ReadToken
+extern int cg_trap_PC_FreeSource( int handle );
+#define trap_PC_FreeSource cg_trap_PC_FreeSource

@@ -4592,7 +4592,9 @@ void Item_Paint( itemDef_t *item ) {
 
 	switch ( item->type ) {
 	case ITEM_TYPE_OWNERDRAW:
+#ifndef NODL
 		Item_OwnerDraw_Paint( item );
+#endif
 		break;
 	case ITEM_TYPE_TEXT:
 	case ITEM_TYPE_BUTTON:
